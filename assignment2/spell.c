@@ -9,6 +9,7 @@
 #include "hash.h"
 
 #define MIN(a,b) (((a)<(b))?(a):(b))
+#define TABLE_UTILIZATION_RATE 0.7
 #define TOTAL_ALPHA 26
 
 /************************reused functino prototype ***************************/
@@ -28,10 +29,8 @@ void print_edit_distance(char *word1, char *word2) {
 
 // see Assignment Task 2: Enumerating all possible edits
 void print_all_edits(char *word) {
-	// hold the word after modification
-	char new[strlen(word)];
-	// one more slot is necessary for implementing insertion
-	char inser[strlen(word)+1];
+	char new[strlen(word)]; //hold the word after modification
+	char inser[strlen(word)+1]; //one more slot is necessary for implementing insertion
 
 	// implementing only deletion for 1 edit distance
 	for (int i = 0; i < strlen(word); i++) {
@@ -71,7 +70,7 @@ void print_checked(List *dictionary, List *document) {
 		return;
 	}
 
-	int size = ((dictionary->size) / 0.7);	// expected size of the hash table
+	int size = ((dictionary->size) / TABLE_UTILIZATION_RATE);	// expected size of the hash table
 	HashTable *table = new_hash_table(size); // creat table
 	Node *item = dictionary->head;	// hold items in linked list
 	int i=0;	// record the position of a word in dictionary
@@ -106,7 +105,7 @@ void print_corrected(List *dictionary, List *document) {
 		return;
 	}
 
-	int size = ((dictionary->size) / 0.7);	// expected size of the hash table
+	int size = ((dictionary->size) / TABLE_UTILIZATION_RATE);	// expected size of the hash table
 	HashTable *table = new_hash_table(size);	// creat table
 	Node *item = dictionary->head;	// hold items in linked list
 	int i=0;	// record the position of a word in dictionary
@@ -134,7 +133,7 @@ void print_corrected(List *dictionary, List *document) {
 			// Deletion for 1 edit distance
 			for (int i = 0; i < strlen(curr); i++) {
 				strcpy(new, curr);
-				// implement only remove the target char in a string
+				// remove the target char in a string
 				memmove(&new[i], &new[i + 1], strlen(new) - i);
 				if(hash_table_has(table, new)){
 					if(position == -1){

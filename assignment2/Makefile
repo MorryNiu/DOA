@@ -35,7 +35,7 @@ hash.o: hash.h
 # `make CLEAN` to remove all object and executable files
 # `make cleanly` to `make` then immediately remove object files (inefficient)
 clean:
-	rm -f $(OBJ)
+	rm -f *.o *~
 CLEAN: clean
 	rm -f $(EXE)
 cleanly: all clean
